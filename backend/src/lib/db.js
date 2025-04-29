@@ -6,6 +6,7 @@ const connectDbMysql = ()=>{
         password:"root",
         database:"adoroFilmes"
     })
+    
    conexao.connect((err) => {
     if(err){
         throw err 
