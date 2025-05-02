@@ -52,3 +52,5 @@ CREATE TABLE IF NOT EXISTS avaliacoes (
     FOREIGN KEY (user_id) REFERENCES users(ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS avaliacoes;
+SHOW CREATE TABLE admin;
+SELECT * FROM admin WHERE email = 'cgrsobral@gmail.com';

@@ -1,0 +1,9 @@
+### cadastro admin
+POST http://localhost:4000/auth/admin/signup
+Content-Type: application/json
+
+{
+    "name":"cassiano",
+    "email":"cgrsobral@gmail.com",
+    "password":"12345678910"
+}
