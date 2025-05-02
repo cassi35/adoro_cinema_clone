@@ -1,6 +1,7 @@
 import pool from "../lib/db.js"
 import validator from "validator"
 import bcrypt from "bcrypt"
+import { createJsonToken } from "../../utils/createJsonToken.js"
 export const signUpAdmin = async (req,res)=>{
     const {email,password,name} = req.body
     if (!email || !password || !name) {
@@ -19,12 +20,13 @@ export const signUpAdmin = async (req,res)=>{
             return res.status(400).json({success:false,message:"email ja cadastrado"})
         }
         const sql = `INSERT INTO admin (email, senha, name) VALUES (?, ?, ?)`;
-        await pool.query(sql, [email, password, name]);
-        return res.status(200).json({success:true,message:"admin cadastrado com sucesso"})
+       const admin =  await pool.query(sql, [email, password, name]);
+       const token = createJsonToken(res,admin[0].insertId)
+       return res.status(200).json({success:true,message:"admin cadastrado com sucesso",token})
     } catch (error) {
         return res.status(500).json({success:false,message:error.message})
     }
 }
 export const loginAdmin = async (req,res)=>{
-   
+   const {email,password} = req.body
 }
