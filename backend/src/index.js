@@ -21,7 +21,7 @@ app.get('/',(req,res)=>{
 
 //endpoints 
 app.use('/auth/admin',routerAdmin)
-app.use('api/post',routerPost)
+app.use('/api/post',routerPost)
 app.listen(PORT, () => {
     console.log(`servidor rodando na porta: ${PORT}`)
 })

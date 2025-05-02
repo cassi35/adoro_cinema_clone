@@ -16,3 +16,14 @@ Content-Type: application/json
     "email":"sobralcassique@gmail.com",
     "password":"12345678910"
 }
+### inserir pessoa
+POST http://localhost:4000/api/post/inserirProducao
+Content-Type: application/json
+
+{
+    "nome":"cassiano",
+    "idade":20,
+    "nacionalidade":"brasileira",
+    "atividade":"ator",
+    "foto":"https://imgv3.fotor.com/images/homepage-feature-card/Carro-PNG.jpg"
+}

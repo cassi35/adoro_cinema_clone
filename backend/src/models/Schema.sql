@@ -71,5 +71,9 @@ DROP TABLE IF EXISTS fotos_filme;
 ALTER TABLE filmes DROP COLUMN foto_id;
 
 alter Table filmes add COLUMN video_id VARCHAR(255);
-desc filmes;  
-
+use adoroFilmes;
+alter table pessoas add COLUMN id_image VARCHAR(255);
+desc pessoas;  
+alter TABLE pessoas DROP COLUMN foto;
+alter TABLE pessoas MODIFY COLUMN id_image VARCHAR(255);
+ALTER TABLE filmes ADD FOREIGN KEY (Id_funcionario) REFERENCES admin(ID);
