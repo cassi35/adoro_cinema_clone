@@ -59,3 +59,14 @@ ALTER TABLE filmes ADD COLUMN id_funcionario INT;
 desc filmes;
 ALTER TABLE filmes ADD FOREIGN KEY (id_funcionario) REFERENCES admin(ID);
 DELETE FROM admin;
+
+SHOW CREATE TABLE filmes;
+SHOW CREATE TABLE pessoas;
+ALTER TABLE pessoas DROP FOREIGN KEY pessoas_ibfk_1; 
+
+DROP TABLE IF EXISTS foto_pessoa;
+ALTER TABLE filmes DROP FOREIGN KEY filmes_ibfk_2;
+DROP TABLE IF EXISTS fotos_filme;    
+
+desc filmes;  
+ALTER TABLE filmes DROP COLUMN foto_id;
