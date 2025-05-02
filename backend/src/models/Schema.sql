@@ -68,5 +68,8 @@ DROP TABLE IF EXISTS foto_pessoa;
 ALTER TABLE filmes DROP FOREIGN KEY filmes_ibfk_2;
 DROP TABLE IF EXISTS fotos_filme;    
 
-desc filmes;  
 ALTER TABLE filmes DROP COLUMN foto_id;
+
+alter Table filmes add COLUMN video_id VARCHAR(255);
+desc filmes;  
+
