@@ -1,7 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import connectDbMysql from './lib/db.js'
-
+import {connectDbMysql} from './lib/db.js'
 dotenv.config() // Carrega as variáveis de ambiente do arquivo .env
 
 const app = express()

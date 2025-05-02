@@ -1,0 +1,45 @@
+USE adoroFilmes;
+
+CREATE TABLE IF NOT EXISTS fotos_filme (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    url VARCHAR(255)
+);
+CREATE TABLE IF NOT EXISTS foto_pessoa(
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    url VARCHAR(255)
+);
+CREATE TABLE IF NOT EXISTS pessoas (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome TEXT NOT NULL,
+    idade INT NOT NULL,
+    nacionalidade VARCHAR(255),
+    atividade ENUM('ator', 'diretor', 'escritor'),
+    foto VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS filmes (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    titulo TEXT NOT NULL,
+    sinopse VARCHAR(255) NOT NULL,
+    genero VARCHAR(255) NOT NULL,
+    avaliacao INT NOT NULL,
+    id_image TINYINT NOT NULL,
+    direcao_id INT,
+    foto_id INT,
+    FOREIGN KEY (direcao_id) REFERENCES pessoas(ID),
+    FOREIGN KEY (foto_id) REFERENCES fotos_filme(ID)
+);
+ALTER TABLE pessoas ADD COLUMN id_image INT;
+ALTER TABLE pessoas ADD FOREIGN KEY (id_image) REFERENCES foto_pessoa(ID);
+CREATE TABLE admin (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS users (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL
+);
+ALTER TABLE admin ADD COLUMN name VARCHAR(255);
