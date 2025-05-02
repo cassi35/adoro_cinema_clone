@@ -9,6 +9,7 @@ const PORT = 4000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+// endpoints  routes
 
 //connecao mysql  
 connectDbMysql()
