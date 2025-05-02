@@ -18,8 +18,8 @@ export const signUpAdmin = async (req,res)=>{
         if(existsAdmin[0].length > 0){
             return res.status(400).json({success:false,message:"email ja cadastrado"})
         }
-        let sql = `INSERT INTO admin VALUES (DEFAULT,${email},${password},${name})`
-        await pool.query(sql)
+        const sql = `INSERT INTO admin (email, senha, name) VALUES (?, ?, ?)`;
+        await pool.query(sql, [email, password, name]);
         return res.status(200).json({success:true,message:"admin cadastrado com sucesso"})
     } catch (error) {
         return res.status(500).json({success:false,message:error.message})

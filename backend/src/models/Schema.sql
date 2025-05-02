@@ -53,4 +53,5 @@ CREATE TABLE IF NOT EXISTS avaliacoes (
 );
 DROP TABLE IF EXISTS avaliacoes;
 SHOW CREATE TABLE admin;
-SELECT * FROM admin WHERE email = 'cgrsobral@gmail.com';
+select * from admin;
+desc admin;
