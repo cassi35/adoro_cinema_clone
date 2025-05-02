@@ -14,6 +14,9 @@ app.use(express.urlencoded({ extended: true }))
 //connecao mysql  
 connectDbMysql()
 
+app.get('/',(req,res)=>{
+    res.send('api adoro dinema rodando')
+})
 //endpoints 
 app.listen(PORT, () => {
     console.log(`servidor rodando na porta: ${PORT}`)
