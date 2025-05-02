@@ -55,3 +55,7 @@ DROP TABLE IF EXISTS avaliacoes;
 SHOW CREATE TABLE admin;
 select * from admin;
 desc admin;
+ALTER TABLE filmes ADD COLUMN id_funcionario INT;
+desc filmes;
+ALTER TABLE filmes ADD FOREIGN KEY (id_funcionario) REFERENCES admin(ID);
+DELETE FROM admin;
