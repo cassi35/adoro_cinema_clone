@@ -77,3 +77,4 @@ desc pessoas;
 alter TABLE pessoas DROP COLUMN foto;
 alter TABLE pessoas MODIFY COLUMN id_image VARCHAR(255);
 ALTER TABLE filmes ADD FOREIGN KEY (Id_funcionario) REFERENCES admin(ID);
+alter table pessoas add COLUMN id_video VARCHAR(255);

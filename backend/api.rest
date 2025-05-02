@@ -25,5 +25,6 @@ Content-Type: application/json
     "idade":20,
     "nacionalidade":"brasileira",
     "atividade":"ator",
-    "foto":"https://imgv3.fotor.com/images/homepage-feature-card/Carro-PNG.jpg"
+    "foto":"https://imgv3.fotor.com/images/homepage-feature-card/Carro-PNG.jpg",
+    "video":""
 }
