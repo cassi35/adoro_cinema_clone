@@ -2,7 +2,6 @@
 import { postCadastrado } from "../emails/email.js";
 import cloudinary from "../lib/cloudinary.js"
 import pool from "../lib/db.js"
-
 export const inserirProducao = async (req, res) => {
     const { nome, idade, nacionalidade, atividade, foto,filme } = req.body;
 
@@ -58,22 +57,30 @@ export const inserirPost = async (req,res)=>{
         return res.status(400).json({success:false,message:"campos invalidos"})
     }
     try {
-        let funcionarioExists = await pool.query(`SELECT * FROM funcionario WHERE id_funcionario = ?`,[id_funcionario])
-        let diretorExists = await pool.query(`SELECT * FROM diretor WHERE id_diretor = ?`,[direcao_id])
+        let funcionarioExists = await pool.query(`SELECT * FROM admin WHERE ID = ?`,[id_funcionario])
+        let diretorExists = await pool.query(`SELECT * FROM pessoas WHERE ID = ?`,[direcao_id])
         if(funcionarioExists[0].length === 0 || diretorExists[0].length === 0){
-            return res.status(400).json({success:false,message:"funcionario nao cadastrado ou diretor nao cadastrado"})
+            return res.status(400).json({success:false,message:"funcionario nao cadastrado ou diretor nao cadastrado",user:funcionarioExists})
         }
         let videoUrl = null 
-        if(id_traler){  
-            const response = await cloudinary.uploader.upload(id_traler)
-            videoUrl = response.secure_url
+        let imageUrl = null
+        if(id_traler && id_image){  
+            try {
+                const response = await cloudinary.uploader.upload(id_traler,{folder:"filmes/post",resource_type:"video"})
+                videoUrl = response.secure_url
+                const responseImage = await cloudinary.uploader.upload(id_image,{folder:"filmes/post",resource_type:"image"})
+                imageUrl = responseImage.secure_url
+            } catch (error) {
+               return res.status(500).json({success:false,message:error.message})
+            }
         }
-        const sql = `INSERT INTO filmes VALUES (?, ?, ?, ?, ?, ?, ? ?)`
-        await pool.query(sql,[titulo,sinopse,genero,avaliacao,id_image,direcao_id,id_funcionario,videoUrl] )
+        const sql = `INSERT INTO filmes (titulo,sinopse,genero,avaliacao,id_image,direcao_id,id_funcionario,id_trailer) VALUES (?, ?, ?, ?, ?, ?, ? ,?)`
+        await pool.query(sql,[titulo,sinopse,genero,avaliacao,imageUrl,direcao_id,id_funcionario,videoUrl] )
         const email = funcionarioExists[0][0].email 
         postCadastrado(email)
         return res.status(200).json({success:true,message:"filme cadastrado com sucesso"})
     } catch (error) {
+        console.log(error)
         return res.status(500).json({success:false,message:error.message})
     }
 }

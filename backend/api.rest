@@ -38,6 +38,6 @@ Content-Type: application/json
     "avaliacao":5,
     "id_image":"https://imgv3.fotor.com/images/homepage-feature-card/Carro-PNG.jpg",
     "direcao_id":1,
-    "id_funcionario":1,
-    "id_traler":"backend/videos/3629511-hd_720_900_24fps(1).mp4"
+    "id_funcionario":3,
+    "id_traler":"https://media.istockphoto.com/id/2197216639/pt/v%C3%ADdeo/sugar-cane-planter-sugar-cane-harvester-agricultural-fields-agricultural-machine-drone-top.mp4?s=mp4-640x640-is&k=20&c=JHkmyTIwHy1ip-PYuHkvcOg4PtBgrekZtJsp2rg-YMw="
 }
