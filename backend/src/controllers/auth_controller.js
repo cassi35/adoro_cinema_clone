@@ -31,10 +31,31 @@ export const signup = async (req,res)=>{
 }
 export const login = async (req,res)=>{
     const {email,senha} = req.body
+    if(validator.isEmail(email) || senha.length <= 5){
+        return res.status(400).json({success:false,message:"email ou senha invalido"})
+    }
     try {
-        
+    const user = await pool.query(`SELECT * FROM users WHERE email = ?`,[email])
+    if(user[0].length === 0){
+        return res.status(400).json({success:false,message:"email nao cadastrado"})
+    }        
+    if(!user[0][0].isverified){
+        return res.status(400).json({success:false,message:"email nao verificado"})
+    }
+    if(!user[0][0].senha){
+        return res.status(500).json({success:false,message:"user nao cadastrado"})
+    }
+    const match = await bcrypt.compare(senha,user[0][0].senha)
+    if(!match){
+        return res.status(400).json({success:false,message:"senha incorreta"})
+    }
+    if(user[0][0].isverified == 'false'){
+       return res.status(400).json({success:false,message:"email nao verificado"})
+    }
+    const token = createJsonToken(res,user[0][0].ID)
+    return res.status(200).json({success:true,message:"user logado com sucesso",token})
     } catch (error) {
-        
+        return res.status(500).json({success:false,message:error.message})
     }
 }
 export const logout = async (req,res)=>{
