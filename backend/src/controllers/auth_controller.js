@@ -15,7 +15,7 @@ export const signup = async (req,res)=>{
              const sql = `INSERT INTO users (name,email,senha) VALUES (?,?,?)`
              await pool.query(sql,[name,email,hashPassword])
              const user = await pool.query(`SELECT * FROM users WHERE email = ?`,[email])
-             return res.status(200).json({success:true,message:"user cadastrado com sucesso",user})
+             return res.status(200).json({success:true,message:"user cadastrado com sucesso",user:user[0]})
     } catch (error) {
         return res.status(500).json({success:false,message:error.message})
     }
