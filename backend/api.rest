@@ -26,5 +26,18 @@ Content-Type: application/json
     "nacionalidade":"brasileira",
     "atividade":"ator",
     "foto":"https://imgv3.fotor.com/images/homepage-feature-card/Carro-PNG.jpg",
-    "video":""
+}
+### inserir post 
+POST http://localhost:4000/api/post/adicionar
+Content-Type: application/json
+
+{
+    "titulo":"planeta dos macacos",
+    "sinopse":"planeta dos macacos a origem",
+    "genero":"aventura",
+    "avaliacao":5,
+    "id_image":"https://imgv3.fotor.com/images/homepage-feature-card/Carro-PNG.jpg",
+    "direcao_id":1,
+    "id_funcionario":1,
+    "id_traler":"backend/videos/3629511-hd_720_900_24fps(1).mp4"
 }

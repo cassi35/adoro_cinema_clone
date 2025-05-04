@@ -1,4 +1,4 @@
-USE adoroFilmes;
+
 
 CREATE TABLE IF NOT EXISTS fotos_filme (
     ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -82,5 +82,5 @@ alter table pessoas drop COLUMN id_video;
 desc filmes; 
 alter Table filmes add COLUMN id_trailer VARCHAR(255);
 
-
-
+USE adoroFilmes;
+desc filmes;
