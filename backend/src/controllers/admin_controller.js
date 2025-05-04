@@ -2,6 +2,7 @@ import pool from "../lib/db.js"
 import validator from "validator"
 import bcrypt from "bcryptjs"
 import { createJsonToken } from "../../utils/createJsonToken.js"
+import { logadoAdmin } from "../emails/email.js"
 export const signUpAdmin = async (req,res)=>{
     const {email,password,name} = req.body
     if (!email || !password || !name) {
@@ -55,6 +56,7 @@ if(password.length < 9){
         return res.status(400).json({success:false,message:"senha incorreta"})
     }
     const token = createJsonToken(res,admin.ID)
+    logadoAdmin(email)
     return res.status(200).json({success:true,message:"admin logado com sucesso",token})
 } catch (error) {
     return res.status(500).json({success:false,message:error.message})
