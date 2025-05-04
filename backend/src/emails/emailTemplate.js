@@ -14,3 +14,8 @@ export const verificationTokenFunc = (verificationToken)=>{
     <h1>token de verificacao ${verificationToken} </h1>
     `
 }
+export const welcomeEmail = (email)=>{
+    return `
+    <h1>logado com sucesso bem vindo de volta ${email} </h1>
+    `
+}

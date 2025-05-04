@@ -44,3 +44,17 @@ export const sendVerificationToken = async (email,verificationToken)=>{
         
     }
 }
+export const sendWelcomeEmail = async (email)=>{
+    try {
+        const mailOptions = {
+            from:process.env.SENDER_EMAIL,
+            to:email,
+            subject:"logado com sucesso",
+            text:wecomelADmin(email)
+        }
+        await tranporter.sendMail(mailOptions)
+    } catch (error) {
+        throw new Error(error.message)
+        
+    }
+}
