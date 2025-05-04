@@ -3,8 +3,8 @@ POST http://localhost:4000/auth/admin/signup
 Content-Type: application/json
 
 {
-    "name":"cassique",
-    "email":"sobralcassique@gmail.com",
+    "name":"inutel",
+    "email":"inuteiscoisas6@gmail.com",
     "password":"12345678910"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:4000/auth/admin/login
 Content-Type: application/json
 
 {
-    "email":"sobralcassique@gmail.com",
+    "email":"inuteiscoisas6@gmail.com",
     "password":"12345678910"
 }
 ### inserir pessoa
