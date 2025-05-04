@@ -9,7 +9,7 @@ export const postCadastradoSucesso = (email)=>{
     <h1>post cadastrado com sucesso bem vindo de volta ${email} </h1>
     `
 }
-export const sendVerificationToken = (verificationToken)=>{
+export const verificationTokenFunc = (verificationToken)=>{
     return `
     <h1>token de verificacao ${verificationToken} </h1>
     `

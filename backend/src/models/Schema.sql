@@ -82,10 +82,14 @@ alter table pessoas drop COLUMN id_video;
 desc filmes; 
 alter Table filmes add COLUMN id_trailer VARCHAR(255);
 
-USE adoroFilmes;
+
 desc filmes;  
 show tables;
 desc users;
 alter table users MODIFY COLUMN  isverified ENUM('true', 'false'); 
 
+USE adoroFilmes;
+select * from users;
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE users;
 SET FOREIGN_KEY_CHECKS = 1;
