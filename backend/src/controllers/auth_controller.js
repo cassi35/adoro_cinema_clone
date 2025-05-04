@@ -29,3 +29,27 @@ export const signup = async (req,res)=>{
         return res.status(500).json({success:false,message:error.message})
     }
 }
+export const login = async (req,res)=>{
+    const {email,senha} = req.body
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+export const logout = async (req,res)=>{
+    try {
+        res.clearCookie('token')
+        res.status(200).json({success:true,message:"user deslogado com sucesso"})
+    } catch (error) {
+        return res.status(500).json({success:false,message:error.message})
+    }
+}
+export const verifyEmail = async (req,res)=>{
+    const {code} = req.body
+    try {
+        
+    } catch (error) {
+        return res.status(500).json({success:false,message:error.message})
+    }
+}
