@@ -83,4 +83,9 @@ desc filmes;
 alter Table filmes add COLUMN id_trailer VARCHAR(255);
 
 USE adoroFilmes;
-desc filmes;
+desc filmes;  
+show tables;
+desc users;
+alter table users MODIFY COLUMN  isverified ENUM('true', 'false'); 
+
+SET FOREIGN_KEY_CHECKS = 1;

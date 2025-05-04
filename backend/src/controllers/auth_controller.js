@@ -1,6 +1,9 @@
 import bcrypt from 'bcryptjs'
 import validator from 'validator'
 import pool from '../lib/db.js'
+import { createJsonToken } from '../../utils/createJsonToken.js'
+import { generateVerificationToken } from '../utils/generateVerificationToken.js'
+import { sendVerificationToken } from '../emails/emailTemplate.js'
 export const signup = async (req,res)=>{
     const {name,email,password} = req.body
     if(!validator.isEmail(email)|| password.length < 5){
@@ -15,7 +18,10 @@ export const signup = async (req,res)=>{
              const sql = `INSERT INTO users (name,email,senha) VALUES (?,?,?)`
              await pool.query(sql,[name,email,hashPassword])
              const user = await pool.query(`SELECT * FROM users WHERE email = ?`,[email])
-             return res.status(200).json({success:true,message:"user cadastrado com sucesso",user:user[0]})
+             const token = createJsonToken(res,user[0][0].ID)
+             const verificationToken = generateVerificationToken()
+             sendVerificationToken(email,verificationToken)
+             return res.status(200).json({success:true,message:"user cadastrado com sucesso",token})
     } catch (error) {
         return res.status(500).json({success:false,message:error.message})
     }

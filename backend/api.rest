@@ -48,6 +48,6 @@ Content-Type: application/json
 
 {
     "name":"cassiano",
-    "email":"cassaino@gmail.com",
+    "email":"cgrsobral@gmail.com",
     "password":"Teta23!"
 }

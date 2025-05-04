@@ -12,7 +12,6 @@ export const logadoAdmin = async (email)=>{
         text:wecomelADmin(email)
        }
        await tranporter.sendMail(mailOptions)
-       const response = await axios.post('')
     } catch (error) {
         throw new Error(error.message)
     }
@@ -29,5 +28,19 @@ export const postCadastrado = async (email)=>{
 
     } catch (error) {
         throw new Error(error.message)
+    }
+}
+export const sendVerificationToken = async (email,verificationToken)=>{
+    try {
+        const mailOptions = {
+            from:process.env.SENDER_EMAIL,
+            to:email,
+            subject:"token de verificacao",
+            text:sendVerificationToken(verificationToken)
+        }
+        await tranporter.sendMail(mailOptions)
+    } catch (error) {
+        throw new Error(error.message)
+        
     }
 }
