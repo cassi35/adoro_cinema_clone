@@ -17,9 +17,3 @@ export const minhaLista = async (req,res)=>{
         return res.status(500).json({success:false,message:error.message})
     }
 }
-export const comentario = async (req,res)=>{
-
-}
-export const avaliacao = async (req,res)=>{
-
-}
