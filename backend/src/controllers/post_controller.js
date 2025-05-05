@@ -84,3 +84,36 @@ export const inserirPost = async (req,res)=>{
         return res.status(500).json({success:false,message:error.message})
     }
 }
+export const deletarPost = async (req,res)=>{
+    const {id} = req.params
+    try {
+        const filme = await pool.query(`SELECT * FROM filmes WHERE ID = ?`,[id])
+        if(filme[0].length === 0){
+            return res.status(400).json({success:false,message:"filme nao cadastrado"})
+        }
+        await pool.query(`DELETE FROM filmes WHERE ID = ?`,[id])
+        return res.status(200).json({success:true,message:"filme deletado com sucesso"})
+    } catch (error) {
+        return res.status(500).json({success:false,message:error.message})
+    }
+}
+export const editarPost = async (req,res)=>{
+    const {id} = req.params
+    const {titulo,sinopse,genero,avaliacao,id_image,direcao_id,id_funcionario,id_traler} = req.body
+    try {
+        const filme = await pool.query(`SELECT * FROM filmes WHERE ID = ?`,[id])
+        let arr = [titulo,sinopse,genero,avaliacao,id_image,direcao_id,id_funcionario,id_traler]
+        if(filme[0].length === 0){
+            return res.status(400).json({success:false,message:"filme nao cadastrado"})
+        }
+        for(let i = 0;i < arr.length;i++){
+            if(arr[i] != ''){
+                var sql = `UPDATE filmes SET ? WHERE ID = ?`
+                await pool.query(sql,[arr[i],id])
+            }
+       }
+       return res.status(200).json({success:true,message:"filme editado com sucesso"})
+    } catch (error) {
+        return res.status(500).json({success:false,message:error.message})
+    }
+}

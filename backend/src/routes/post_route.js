@@ -1,6 +1,7 @@
 import express from 'express'
 import multer from 'multer'
-import {inserirPost,inserirProducao} from '../controllers/post_controller.js'
+import {inserirPost,inserirProducao,deletarPost,editarPost} from '../controllers/post_controller.js'
+import { adminMiddleware } from '../middlewares/adminMiddleware.js'
 
 const routerPost = express.Router()
 
@@ -23,5 +24,6 @@ const upload = multer({
 
 routerPost.post('/inserirProducao',inserirProducao)
 routerPost.post('/adicionar', upload.single('video'), inserirPost)
-
+routerPost.delete('/deletar-post/:id',adminMiddleware,deletarPost)
+routerPost.put('/editar-post/:id',adminMiddleware,editarPost)
 export default routerPost
