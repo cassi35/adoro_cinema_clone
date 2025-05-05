@@ -31,7 +31,7 @@ export const signup = async (req,res)=>{
 }
 export const login = async (req,res)=>{
     const {email,senha} = req.body
-    if(validator.isEmail(email) || senha.length <= 5){
+    if(!validator.isEmail(email) || senha.length <= 5){
         return res.status(400).json({success:false,message:"email ou senha invalido"})
     }
     try {
@@ -39,7 +39,7 @@ export const login = async (req,res)=>{
     if(user[0].length === 0){
         return res.status(400).json({success:false,message:"email nao cadastrado"})
     }        
-    if(!user[0][0].isverified){
+    if(user[0][0].isverified == 'false'){
         return res.status(400).json({success:false,message:"email nao verificado"})
     }
     if(!user[0][0].senha){

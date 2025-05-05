@@ -49,7 +49,7 @@ Content-Type: application/json
 {
     "name":"cassiano",
     "email":"sobralcassique@gmail.com",
-
+    "password":"Teta23!"
 }
 ### verify email 
 POST http://localhost:4000/api/auth/verify-email
@@ -63,6 +63,7 @@ POST http://localhost:4000/api/auth/login
 Content-Type: application/json
 
 {
-        "email":"sobralcassique@gmail.com",
-        "password":"Teta23!"
+
+    "email":"sobralcassique@gmail.com",
+    "senha":"Teta23!"
 }
