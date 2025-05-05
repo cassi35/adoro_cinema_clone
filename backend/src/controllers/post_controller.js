@@ -109,7 +109,7 @@ export const editarPost = async (req,res)=>{
         let video_url = filme[0][0].id_trailer
         if(id_image != ''){
             try {
-                await cloudinary.uploader.destroy(filme[0][0].id_image)
+                await cloudinary.uploader.destroy(img_url)
                 const response = await cloudinary.uploader.upload(id_image,{folder:"filmes/post",resource_type:"image"})
                 img_url = response.secure_url
             } catch (error) {
@@ -118,7 +118,7 @@ export const editarPost = async (req,res)=>{
         }
         if(video_url != ''){
             try {
-                await cloudinary.uploader.destroy(filme[0][0].id_trailer)
+                await cloudinary.uploader.destroy(video_url)
                 const response = await cloudinary.uploader.upload(id_traler,{folder:"filmes/post",resource_type:"video"})
                 video_url = response.secure_url
             } catch (error) {
