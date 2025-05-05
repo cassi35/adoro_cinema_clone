@@ -3,7 +3,7 @@ import validator from 'validator'
 import pool from '../lib/db.js'
 import { createJsonToken } from '../../utils/createJsonToken.js'
 import { generateVerificationToken } from '../utils/generateVerificationToken.js'
-import { sendVerificationToken } from  '../emails/email.js'
+import { sendVerificationToken, sendWelcomeEmail } from  '../emails/email.js'
 export const signup = async (req,res)=>{
     const {name,email,password} = req.body
     if(!validator.isEmail(email)|| password.length < 5){
@@ -69,7 +69,16 @@ export const logout = async (req,res)=>{
 export const verifyEmail = async (req,res)=>{
     const {code} = req.body
     try {
-        
+        const user = await pool.query(`SELECT * FROM users WHERE verificationToken = ?`,[code])
+        if(user[0].length === 0){
+            return res.status(400).json({success:false,message:"token invalido"})
+        }
+        user[0][0].isverified = 'true'
+        user[0][0].verificationToken = null
+        user[0][0].verificationTokenExpireAt = null
+        await pool.query(`UPDATE users SET ? WHERE ID = ?`,[user[0][0],user[0][0].ID])
+        sendWelcomeEmail(user[0][0].email)
+        return res.status(200).json({success:true,message:"email verificado com sucesso"})
     } catch (error) {
         return res.status(500).json({success:false,message:error.message})
     }
