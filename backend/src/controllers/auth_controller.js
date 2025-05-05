@@ -3,7 +3,7 @@ import validator from 'validator'
 import pool from '../lib/db.js'
 import { createJsonToken } from '../../utils/createJsonToken.js'
 import { generateVerificationToken } from '../utils/generateVerificationToken.js'
-import { sendVerificationToken, sendWelcomeEmail } from  '../emails/email.js'
+import { sendResetPasswordEmail, sendResetPasswordEmailSucess, sendVerificationToken, sendWelcomeEmail } from  '../emails/email.js'
 export const signup = async (req,res)=>{
     const {name,email,password} = req.body
     if(!validator.isEmail(email)|| password.length < 5){
@@ -80,6 +80,52 @@ export const verifyEmail = async (req,res)=>{
         sendWelcomeEmail(user[0][0].email)
         return res.status(200).json({success:true,message:"email verificado com sucesso"})
     } catch (error) {
+        return res.status(500).json({success:false,message:error.message})
+    }
+}
+export const sendResetPassword = async (req,res)=>{
+    const {email} = req.body
+    try {
+        const existsUser = await pool.query(`SELECT * FROM users WHERE email = ?`,[email])
+        if(existsUser[0].length === 0){
+            return res.status(400).json({success:false,message:"email nao cadastrado"})
+        }
+        const tempo = new Date()
+             const data = `${tempo.getFullYear()}-${tempo.getMonth()}-${tempo.getDate()}`
+             const verificationToken = generateVerificationToken()
+            const user = await pool.query(`SELECT * FROM users WHERE email = ?`,[email])
+            user[0][0].resetPasswordToken = verificationToken
+            user[0][0].resetPasswordTokenExpire = data
+            await pool.query(`UPDATE users SET ? WHERE ID = ?`,[user[0][0],user[0][0].ID])
+             sendResetPasswordEmail(email,verificationToken)
+             return res.status(200).json({success:true,message:"email enviado com sucesso"})
+    } catch (error) {
+        return res.status(500).json({success:false,message:error.message})
+    }
+}
+export const resetPassword = async (req,res)=>{
+    const {code,email,newPassword} = req.body 
+    try {
+        const user = await pool.query(`SELECT * FROM users WHERE email = ?`,[email])
+        if(user[0].length === 0){
+            return res.status(400).json({success:false,message:"email nao cadastrado"})
+        }
+        if(user[0][0].resetPasswordToken != code){
+            return res.status(400).json({success:false,message:"token invalido"})
+        }
+        const tempo = new Date()
+        const data = `${tempo.getFullYear()}-${tempo.getMonth()}-${tempo.getDate()}`
+        if(user[0][0].resetPasswordTokenExpire < data){
+            return res.status(400).json({success:false,message:"token expirado"})
+        }
+        const hashPassword = await bcrypt.hash(newPassword,9)
+        user[0][0].senha = hashPassword
+        user[0][0].resetPasswordToken = null
+        user[0][0].resetPasswordTokenExpire = null
+        await pool.query(`UPDATE users SET ? WHERE ID = ?`,[user[0][0],user[0][0].ID])
+        sendResetPasswordEmailSucess(email)
+        return res.status(200).json({success:true,message:"senha alterada com sucesso"})
+        } catch (error) {
         return res.status(500).json({success:false,message:error.message})
     }
 }

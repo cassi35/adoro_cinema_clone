@@ -24,3 +24,13 @@ export const sendEditado = (email)=>{
     <h1>filme aditado com sucesso ${email} </h1>
     `
 }
+export const resetPassword = (email)=>{
+    return `
+    <h1>otp reset password${email} </h1>
+    `
+}
+export const successResetPassword = (email)=>{
+    return `
+    <h1>senha resetada com sucesso ${email} <h1/>
+    `
+}

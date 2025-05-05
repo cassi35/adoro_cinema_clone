@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import axios from 'axios'
 dotenv.config()
-import {postCadastradoSucesso, wecomelADmin,verificationTokenFunc, sendEditado} from '../emails/emailTemplate.js'
+import {postCadastradoSucesso, wecomelADmin,verificationTokenFunc, sendEditado,resetPassword,successResetPassword} from '../emails/emailTemplate.js'
 import tranporter from '../config/nodemailter.js'
 export const logadoAdmin = async (email)=>{
     try {
@@ -70,5 +70,31 @@ export const sendAlteradoSucesso = async (email)=>{
     } catch (error) {
         throw new Error(error.message)
         
+    }
+}
+export const sendResetPasswordEmail = async (email)=>{
+    try {
+        const mailOptions = {
+            from:process.env.SENDER_EMAIL,
+            to:email,
+            subject:"logado com sucesso",
+            text:resetPassword(email)
+        }
+        await tranporter.sendMail(mailOptions)
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+export const sendResetPasswordEmailSucess = async (email)=>{
+    try {
+        const mailOptions = {
+            from:process.env.SENDER_EMAIL,
+            to:email,
+            subject:"logado com sucesso",
+            text:successResetPassword(email)
+        }
+        await tranporter.sendMail(mailOptions)
+    } catch (error) {
+        throw new Error(error.message)
     }
 }
