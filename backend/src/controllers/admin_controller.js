@@ -7,7 +7,7 @@ export const signUpAdmin = async (req,res)=>{
     const {email,password,name} = req.body
     if (!email || !password || !name) {
         return res.status(400).json({ success: false, message: "Todos os campos são obrigatórios" });
-    }
+    } 
     
     if (!validator.isEmail(email) ) {
         return res.status(400).json({ success: false, message: "Email inválido" });
