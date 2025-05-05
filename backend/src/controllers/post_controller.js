@@ -102,16 +102,38 @@ export const editarPost = async (req,res)=>{
     const {titulo,sinopse,genero,avaliacao,id_image,direcao_id,id_funcionario,id_traler} = req.body
     try {
         const filme = await pool.query(`SELECT * FROM filmes WHERE ID = ?`,[id])
-        let arr = [titulo,sinopse,genero,avaliacao,id_image,direcao_id,id_funcionario,id_traler]
         if(filme[0].length === 0){
             return res.status(400).json({success:false,message:"filme nao cadastrado"})
         }
-        for(let i = 0;i < arr.length;i++){
-            if(arr[i] != ''){
-                var sql = `UPDATE filmes SET ? WHERE ID = ?`
-                await pool.query(sql,[arr[i],id])
+        let img_url = filme[0][0].id_image
+        let video_url = filme[0][0].id_trailer
+        if(id_image != ''){
+            try {
+                await cloudinary.uploader.destroy(filme[0][0].id_image)
+                const response = await cloudinary.uploader.upload(id_image,{folder:"filmes/post",resource_type:"image"})
+                img_url = response.secure_url
+            } catch (error) {
+                return res.status(500).json({success:false,message:error.message})
             }
-       }
+        }
+        if(video_url != ''){
+            try {
+                await cloudinary.uploader.destroy(filme[0][0].id_trailer)
+                const response = await cloudinary.uploader.upload(id_traler,{folder:"filmes/post",resource_type:"video"})
+                video_url = response.secure_url
+            } catch (error) {
+                return res.status(500).json({success:false,message:error.message})
+            }
+        }
+       filme[0][0].titulo = titulo != ''?titulo:filme[0][0].titulo
+       filme[0][0].sinopse = sinopse != ''?sinopse:filme[0][0].sinopse
+       filme[0][0].genero = genero != ''?genero:filme[0][0].genero
+       filme[0][0].avaliacao = avaliacao != ''?avaliacao:filme[0][0].avaliacao
+       filme[0][0].id_image = img_url
+       filme[0][0].id_trailer = video_url
+       filme[0][0].direcao_id = direcao_id != ''?direcao_id:filme[0][0].direcao_id
+       filme[0][0].id_funcionario = id_funcionario != ''?id_funcionario:filme[0][0].id_funcionario
+       await pool.query(`UPDATE filmes SET ? WHERE ID = ?`,[filme[0][0],id])
        return res.status(200).json({success:true,message:"filme editado com sucesso"})
     } catch (error) {
         return res.status(500).json({success:false,message:error.message})
