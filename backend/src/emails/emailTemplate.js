@@ -19,3 +19,8 @@ export const welcomeEmail = (email)=>{
     <h1>logado com sucesso bem vindo de volta ${email} </h1>
     `
 }
+export const sendEditado = (email)=>{
+    return `
+    <h1>filme aditado com sucesso ${email} </h1>
+    `
+}

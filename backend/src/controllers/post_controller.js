@@ -1,5 +1,5 @@
 
-import { postCadastrado } from "../emails/email.js";
+import { postCadastrado, sendAlteradoSucesso } from "../emails/email.js";
 import cloudinary from "../lib/cloudinary.js"
 import pool from "../lib/db.js"
 export const inserirProducao = async (req, res) => {
@@ -110,8 +110,8 @@ export const editarPost = async (req,res)=>{
         if(id_image != ''){
             try {
                 await cloudinary.uploader.destroy(img_url)
-                const response = await cloudinary.uploader.upload(id_image,{folder:"filmes/post",resource_type:"image"})
-                img_url = response.secure_url
+                const responseImage = await cloudinary.uploader.upload(id_image,{folder:"filmes/post",resource_type:"image"})
+                img_url = responseImage.secure_url
             } catch (error) {
                 return res.status(500).json({success:false,message:error.message})
             }
@@ -119,8 +119,8 @@ export const editarPost = async (req,res)=>{
         if(video_url != ''){
             try {
                 await cloudinary.uploader.destroy(video_url)
-                const response = await cloudinary.uploader.upload(id_traler,{folder:"filmes/post",resource_type:"video"})
-                video_url = response.secure_url
+                const responseVideo = await cloudinary.uploader.upload(id_traler,{folder:"filmes/post",resource_type:"video"})
+                video_url = responseVideo.secure_url
             } catch (error) {
                 return res.status(500).json({success:false,message:error.message})
             }
@@ -134,6 +134,8 @@ export const editarPost = async (req,res)=>{
        filme[0][0].direcao_id = direcao_id != ''?direcao_id:filme[0][0].direcao_id
        filme[0][0].id_funcionario = id_funcionario != ''?id_funcionario:filme[0][0].id_funcionario
        await pool.query(`UPDATE filmes SET ? WHERE ID = ?`,[filme[0][0],id])
+       const email = filme[0][0].id_funcionario
+       sendAlteradoSucesso(email)
        return res.status(200).json({success:true,message:"filme editado com sucesso"})
     } catch (error) {
         return res.status(500).json({success:false,message:error.message})
